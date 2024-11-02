@@ -115,8 +115,8 @@ export default function StakingRewardsProvider({ children }) {
     const withdrawRTK = async () => {
         // const amount = parseUnits(_amount, 'ether');
         await contract.withdrawRewards()
-        const balance = await contractAddress.userShares[account];
-        console.log('withdraw RTK', balance);
+        const balance = await contract.userShares[account];
+        console.log('withdraw RTK', {balance});
     }
 
     const withdrawSTK = async (_amount) => {
@@ -127,7 +127,7 @@ export default function StakingRewardsProvider({ children }) {
 
     const queryEarnedRewards = async () => {
         console.log('earnedAmount', account);
-        const earnedAmount = await contractAddress.earned(account);
+        const earnedAmount = await contract.earned(account);
         console.log('earnedRewards:', earnedAmount.toString());
         return earnedAmount;
     }
