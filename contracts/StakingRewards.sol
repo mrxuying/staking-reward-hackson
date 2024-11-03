@@ -111,9 +111,10 @@ contract StakingRewards {
 
     // 用户质押函数
     function stake(uint256 _amount) external calculateReward(msg.sender) {
+        console.log("amount", _amount);
+        require(_amount > 0, "Amount must be greater than zero");
         uint amount = _amount * MULTIPLIER;
-        require(amount > 0, "Amount must be greater than zero");
-
+        stakingToken.approve(address(this), amount);
         (bool success) = stakingToken.transferFrom(msg.sender, address(this), amount);
         require(success, "Transfer failed");
         emit Staked(msg.sender, amount);

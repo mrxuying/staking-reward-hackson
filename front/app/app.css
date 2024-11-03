@@ -1,0 +1,76 @@
+body {  
+    margin: 0;  
+    padding: 0;  
+    display: flex;  
+    justify-content: center;  
+    align-items: center;  
+    height: 100vh;  
+    background-color: #f0f0f0;  
+}  
+
+.container {  
+    width: 800px;  
+    height: 500px;  
+    border: 1px solid #333; /* 外边线 */  
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 20); /* 悬浮效果 */  
+    background-color: #fff;  
+    display: flex;  
+    justify-content: right;  
+    align-items: center;  
+    -moz-box-align: center;
+}
+
+.child {  
+    /* 子元素的样式，比如宽度、背景色等 */  
+    width: 45%; /* 假设每个子元素占据容器宽度的45%，留一些空间用于间隔 */  
+    /* background-color: #f0f0f0;   */
+    padding: 10px;  
+    box-sizing: border-box; /* 确保padding不会增加元素的宽度 */
+    margin-left: 10px; /* 水平间距 */
+    margin-top: 5px;  /* 垂直间距 */  
+}
+
+.child > .button {  
+    /* 子元素的样式，比如宽度、背景色等 */  
+    width: 45%; /* 假设每个子元素占据容器宽度的45%，留一些空间用于间隔 */  
+    /* background-color: #f0f0f0;   */
+    padding: 10px;  
+    box-sizing: border-box; /* 确保padding不会增加元素的宽度 */
+    margin-left: 10px; /* 水平间距 */
+    margin-top: 5px;  /* 垂直间距 */  
+}
+
+.child:not(:last-child) {  
+    /* 为非最后一个子元素添加右侧边框（竖线） */  
+    border-right: 1px solid #ccc; /* 你可以根据需要调整颜色和粗细 */  
+}
+
+.content {  
+    text-align: center;  
+}
+
+.button {
+    border-radius: 8px;
+    border: 1px solid transparent;
+    padding: 0.6em 1.2em;
+    font-size: 1em;
+    font-weight: 500;
+    font-family: inherit;
+    background-color: #1a1a1a;
+    cursor: pointer;
+    transition: border-color 0.25s;
+}
+  
+button + button {
+    margin-left: 10px; /* 水平间距 */
+    margin-top: 5px;  /* 垂直间距 */
+}
+  
+.button:hover {
+    border-color: #646cff;
+}
+.button:focus,
+.button:focus-visible {
+    outline: 4px auto -webkit-focus-ring-color;
+}
+

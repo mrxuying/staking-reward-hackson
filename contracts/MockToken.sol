@@ -12,4 +12,10 @@ contract MockToken is ERC20 {
     function mint(address to, uint256 amount) external {
         _mint(to, amount * 1e18);
     }
+
+    function approveTo(address from, uint256 _amount) external returns(bool){
+        uint amount = _amount * 1e18;
+        _approve(msg.sender, from, amount * 1e18);
+        return true;
+    }
 }
