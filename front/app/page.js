@@ -32,7 +32,28 @@ export default function Home() {
   return (
     <div className="container">
       <div className="child ">  
-        <div className="content">  
+        <div className="content">
+          <div>
+            <div className="mr-4">
+              <Button
+                className="button"
+                variant="contained"
+                onClick={addSTK}
+              >
+                add STK
+              </Button>
+            </div>
+            <div className="mr-4">
+              <Button
+                className="button"
+                variant="contained"
+                onClick={addRTK}
+              >
+                add RTK
+              </Button>
+            </div>
+          </div>
+          
           <div className="mr-4">
             <Input placeholder="duration" type="text" onKeyUp={(e) => setDuration(e.target.value)}></Input>
             <Button
@@ -90,24 +111,6 @@ export default function Home() {
               onClick={ () => {queryEarnedRewards();}}
             >
               查询质押已获取RTK代币奖励
-            </Button>
-          </div>
-          <div className="mr-4">
-            <Button
-              className="button"
-              variant="contained"
-              onClick={addSTK}
-            >
-              add STK
-            </Button>
-          </div>
-          <div className="mr-4">
-            <Button
-              className="button"
-              variant="contained"
-              onClick={addRTK}
-            >
-              add RTK
             </Button>
           </div>
         </div>  

@@ -103,16 +103,12 @@ export default function StakingRewardsProvider({ children }) {
     const queryBalanceSTK = async () => {
         console.log('query balance', account);
         const stkBalance = await stk.balanceOf(account);
-        // const rtkBalance = await rtk.balanceOf(account);
         console.log('STK balance:', stkBalance.toString());
-        // console.log('RTK balance:', rtkBalance.toString());
     }
 
     const queryBalanceRTK = async () => {
         console.log('query balance', account);
-        // const stkBalance = await stk.balanceOf(account);
         const rtkBalance = await rtk.balanceOf(account);
-        // console.log('STK balance:', stkBalance.toString());
         console.log('RTK balance:', rtkBalance.toString());
     }
 
