@@ -54,6 +54,18 @@ export default function StakingRewardsProvider({ children }) {
         // await stk.mint(account, amount);
     }
 
+    // const approveSTK = async (_amount) => {
+    //     const amount = parseUnits(_amount, 'ether');
+    //     console.log('approve STK to', contractAddress);
+    //     await stk.approve(contractAddress, amount);
+    // }
+
+    const approveRTK = async (_amount) => {
+        const amount = parseUnits(_amount, 'ether');
+        console.log('approve RTK to', contractAddress);
+        await rtk.approve(contractAddress, amount);
+    }
+
     const addSTK = async () => {
         if (window.ethereum) {
             window.ethereum.request({
@@ -107,7 +119,7 @@ export default function StakingRewardsProvider({ children }) {
     const stakeSTK = async (_amount) => {
         const amount = parseUnits(_amount, 'ether');
         console.log('stake STK', amount);
-        const receipt = await stk.approve(contract.address, amount); // 正确的做法是先approve，approve事件会被监听，然后再stake
+        const receipt = await stk.approveTo(contract.address, amount); // 正确的做法是先approve，approve事件会被监听，然后再stake
         await receipt.wait();
         await contract.stake(amount)
     }
@@ -115,7 +127,7 @@ export default function StakingRewardsProvider({ children }) {
     const withdrawRTK = async () => {
         // const amount = parseUnits(_amount, 'ether');
         await contract.withdrawRewards()
-        const balance = await contractAddress.userShares[account];
+        const balance = await contract.userShares[account];
         console.log('withdraw RTK', balance);
     }
 
@@ -127,8 +139,8 @@ export default function StakingRewardsProvider({ children }) {
 
     const queryEarnedRewards = async () => {
         console.log('earnedAmount', account);
-        const earnedAmount = await contractAddress.earned(account);
-        console.log('earnedRewards:', earnedAmount.toString());
+        const earnedAmount = await contract.earned(account);
+        console.log('earnedRewards:', {...earnedAmount});
         return earnedAmount;
     }
 
@@ -140,6 +152,8 @@ export default function StakingRewardsProvider({ children }) {
             setRewardsDuration,
             notifyRewardAmount,
             mintSTK,
+            // approveSTK,
+            approveRTK,
             stakeSTK,
             withdrawRTK,
             addSTK,
