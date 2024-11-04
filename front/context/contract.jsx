@@ -33,14 +33,14 @@ export default function StakingRewardsProvider({ children }) {
     // const amount = parseUnits('1', 'ether');
 
     const setRewardsDuration = async (_duration) => {
-        console.log('reward duration will last for', _duration, 'seconds.' );
+        
         const duration = parseInt(_duration, 10);
+        console.log('reward duration will last for', _duration, 'seconds.' );
         await contract.setRewardsDuration(duration);
     }
 
     const notifyRewardAmount = async (_amount) => {
         console.log('rewardToken add ', _amount.toString());
-        
         const amount = parseUnits(_amount, 'ether');
         await contract.notifyRewardAmount(amount);
     }
@@ -122,9 +122,9 @@ export default function StakingRewardsProvider({ children }) {
 
     const withdrawRTK = async () => {
         // const amount = parseUnits(_amount, 'ether');
-        await contract.withdrawRewards()
-        const balance = await contract.userShares[account];
-        console.log('withdraw RTK', balance);
+        await contract.withdrawRewards();
+        // const balance = await contract.userShares[account];
+        // console.log('withdraw RTK', balance);
     }
 
     const withdrawSTK = async (_amount) => {
@@ -135,13 +135,14 @@ export default function StakingRewardsProvider({ children }) {
 
     const queryEarnedRewards = async () => {
         console.log('earnedAmount', account);
+        const unit = parseUnits('1', 'ether');
         const earnedAmount = await contract.earned(account);
-        console.log('earnedRewards:', earnedAmount.toString());
+        console.log('earnedRewards(unit/wei):', earnedAmount.toString());
         return earnedAmount;
     }
 
     const queryFinishTime = async () => {
-        const finishTime = await contract.finishAt;
+        const finishTime = await contract.finishTime();
         console.log('finishTime:', {...finishTime});
     }
 

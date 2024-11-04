@@ -68,6 +68,8 @@ contract StakingRewards {
         if(totalStaked == 0){
             return rewardPerTokenStored;
         }
+        console.log("lastTimeRewardApplicable", lastTimeRewardApplicable());
+        console.log("updatedAt", updatedAt);
         return rewardPerTokenStored + (rewardRate * (lastTimeRewardApplicable() - updatedAt)) * MULTIPLIER / totalStaked;
     }
 
@@ -77,8 +79,8 @@ contract StakingRewards {
 
     function earned(address _account) public view returns(uint){
         //截止目前存量获得奖励数量
-        
-        return (userStaked[_account] * (rewardsPerStakingToken() - userRewardPerTokenPaid[_account])) / MULTIPLIER;
+        uint rewards = (userStaked[_account] * (rewardsPerStakingToken() - userRewardPerTokenPaid[_account])) / MULTIPLIER;
+        return rewards;
     }
 
     function setRewardsDuration(uint _duration) external onlyOwner {
@@ -101,6 +103,7 @@ contract StakingRewards {
             uint remainingRewards = rewardRate * (finishAt - block.timestamp);
             rewardRate = (remainingRewards + _amount) / duration;
         }
+        console.log("rewardRate=>", rewardRate);
 
         require(rewardRate > 0, "rewardRate can not be 0");
         require(duration * rewardRate <= rewardToken.balanceOf(address(this)), "rewards amount > balance");
@@ -117,10 +120,10 @@ contract StakingRewards {
         // uint amount = _amount;
         (bool success) = stakingToken.transferFrom(msg.sender, address(this), _amount);
         require(success, "Transfer failed");
-        emit Staked(msg.sender, _amount);
-
         userStaked[msg.sender] += _amount;
         totalStaked += _amount;
+        emit Staked(msg.sender, _amount);
+        
     }
 
     // 计算用户的可领取奖励
