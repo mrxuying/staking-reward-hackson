@@ -10,12 +10,6 @@ contract MockToken is ERC20 {
 
     // 可以根据需要额外铸造代币
     function mint(address to, uint256 amount) external {
-        _mint(to, amount * 1e18);
-    }
-
-    function approveTo(address from, uint256 _amount) external returns(bool){
-        uint amount = _amount * 1e18;
-        _approve(msg.sender, from, amount * 1e18);
-        return true;
+        _mint(to, amount);
     }
 }

@@ -10,7 +10,7 @@ async function deploy() {
     /**
      * Deploy Staking Token and Reward Token
      */
-    const initialSupply = ethers.parseUnits('10000', 'ether');
+    const initialSupply = ethers.parseUnits('1000000', 'ether');
     const stk = await deployToken('Staking Token', 'STK', initialSupply);
     const rtk = await deployToken('Reward Token', 'RTK', initialSupply);
     await stk.waitForDeployment();
@@ -22,7 +22,7 @@ async function deploy() {
     /**
      * Deploy StakingRewards contract
      */
-    const rewardSupply = ethers.parseUnits('1000000000000000000', 'ether');
+    const rewardSupply = ethers.parseUnits('1000000', 'ether');
     const StakingRewards = await ethers.getContractFactory("StakingRewards");
     const stakingRewards = await StakingRewards.deploy(stk.target, rtk.target, rewardSupply);
     await stakingRewards.waitForDeployment();

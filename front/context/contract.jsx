@@ -39,16 +39,16 @@ export default function StakingRewardsProvider({ children }) {
     }
 
     const notifyRewardAmount = async (_amount) => {
-        console.log('rewardToken add ', _amount);
+        console.log('rewardToken add ', _amount.toString());
         
-        const amount = parseInt(_amount, 10);
+        const amount = parseUnits(_amount, 'ether');
         await contract.notifyRewardAmount(amount);
     }
 
     const mintSTK = async (_amount) => {
         // const amountInt = parseInt(_amount, 10);
         // console.log(_amount);
-        const amount = parseUnits('1', 'ether'); 
+        const amount = parseUnits(_amount, 'ether'); 
         console.log('mint STK', account, amount);
         await stk.mint(account, amount);
         // await stk.mint(account, amount);
@@ -60,11 +60,11 @@ export default function StakingRewardsProvider({ children }) {
     //     await stk.approve(contractAddress, amount);
     // }
 
-    const approveRTK = async (_amount) => {
-        const amount = parseUnits(_amount, 'ether');
-        console.log('approve RTK to', contractAddress);
-        await rtk.approve(contractAddress, amount);
-    }
+    // const approveRTK = async (_amount) => {
+    //     const amount = parseUnits(_amount, 'ether');
+    //     console.log('approve RTK to', contractAddress);
+    //     await rtk.approve(contractAddress, amount);
+    // }
 
     const addSTK = async () => {
         if (window.ethereum) {
@@ -114,8 +114,8 @@ export default function StakingRewardsProvider({ children }) {
 
     const stakeSTK = async (_amount) => {
         const amount = parseUnits(_amount, 'ether');
-        console.log('stake STK', amount);
-        const receipt = await stk.approveTo(contract.address, amount); // 正确的做法是先approve，approve事件会被监听，然后再stake
+        console.log('stake STK', amount.toString());
+        const receipt = await stk.approve(contract.address, amount); // 正确的做法是先approve，approve事件会被监听，然后再stake
         await receipt.wait();
         await contract.stake(amount)
     }
@@ -136,8 +136,13 @@ export default function StakingRewardsProvider({ children }) {
     const queryEarnedRewards = async () => {
         console.log('earnedAmount', account);
         const earnedAmount = await contract.earned(account);
-        console.log('earnedRewards:', {...earnedAmount});
+        console.log('earnedRewards:', earnedAmount.toString());
         return earnedAmount;
+    }
+
+    const queryFinishTime = async () => {
+        const finishTime = await contract.finishAt;
+        console.log('finishTime:', {...finishTime});
     }
 
     return (
@@ -149,7 +154,7 @@ export default function StakingRewardsProvider({ children }) {
             notifyRewardAmount,
             mintSTK,
             // approveSTK,
-            approveRTK,
+            // approveRTK,
             stakeSTK,
             withdrawRTK,
             addSTK,
@@ -157,7 +162,8 @@ export default function StakingRewardsProvider({ children }) {
             queryBalanceSTK,
             queryBalanceRTK,
             withdrawSTK,
-            queryEarnedRewards
+            queryEarnedRewards,
+            queryFinishTime
 
         }}>
             {children}

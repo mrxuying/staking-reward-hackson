@@ -10,7 +10,7 @@ export default function Home() {
     notifyRewardAmount,
     mintSTK,
     // approveSTK,
-    approveRTK, 
+    // approveRTK, 
     addSTK, 
     addRTK, 
     stakeSTK, 
@@ -18,7 +18,8 @@ export default function Home() {
     withdrawSTK,
     queryBalanceSTK, 
     queryBalanceRTK, 
-    queryEarnedRewards
+    queryEarnedRewards,
+    queryFinishTime
     
   } = useStakingRewardsContext();
 
@@ -113,6 +114,15 @@ export default function Home() {
               查询质押已获取RTK代币奖励
             </Button>
           </div>
+          <div className="mr-4">
+            <Button
+              className="button"
+              variant="contained"
+              onClick={ () => {queryFinishTime();}}
+            >
+              查询结束时间
+            </Button>
+          </div>
         </div>  
       </div>
       <div className="child">  
@@ -121,22 +131,12 @@ export default function Home() {
             <Button
               className="button"
               variant="contained"
-              onClick={() => {mintSTK('1000')}}
+              onClick={() => {mintSTK('1000');}}
             >
               领取 STK 到账号
             </Button>
           </div>
           
-          <div className="mr-4">
-            <Input placeholder="approveRTKAmount" type="text" onKeyUp={(e) => setApproveRTKAmount(e.target.value)}></Input>
-            <Button
-              className="button"
-              variant="contained"
-              onClick={() => {approveRTK(approveRTKAmount.toString());}}
-            >
-              授权RTK到合约
-            </Button>
-          </div>
           <div className="mr-4">
             <Button
               className="button"

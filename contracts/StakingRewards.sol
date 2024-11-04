@@ -10,8 +10,9 @@ contract StakingRewards {
     MockToken public immutable stakingToken;
     MockToken public immutable rewardToken;
 
-    uint256 public totalShares; // 系统的总份额
+    uint256 public totalRewards; // 系统的总奖励
     uint256 public totalStaked; // 系统的总质押金额
+    uint256 public rewardLeft; // 系统的剩余奖励
 
     //增加合约拥有者，管理员, 奖励持续时间，开始结束时间
     address public owner;
@@ -36,11 +37,11 @@ contract StakingRewards {
         uint256 _amount
     ) {
         owner = msg.sender;
-        uint amount = _amount * MULTIPLIER;
+        // uint amount = _amount;
         stakingToken = _stakingToken;
         rewardToken = _rewardToken;
-        rewardToken.mint(address(this), amount);
-        rewardToken.approve(address(this), amount);
+        rewardToken.mint(address(this), _amount);
+        // rewardToken.approve(address(this), amount);
     }
 
     modifier onlyOwner() {
@@ -74,10 +75,10 @@ contract StakingRewards {
         return block.timestamp < finishAt ? block.timestamp : finishAt;
     }
 
-    function earned(address _account) public returns(uint){
+    function earned(address _account) public view returns(uint){
         //截止目前存量获得奖励数量
-        userShares[_account] += ((userStaked[_account] * (rewardsPerStakingToken() - userRewardPerTokenPaid[_account])) / MULTIPLIER);
-        return userShares[_account];
+        
+        return (userStaked[_account] * (rewardsPerStakingToken() - userRewardPerTokenPaid[_account])) / MULTIPLIER;
     }
 
     function setRewardsDuration(uint _duration) external onlyOwner {
@@ -91,20 +92,20 @@ contract StakingRewards {
     function notifyRewardAmount(uint _amount) external onlyOwner calculateReward(address(0)) {
         require(duration > 0 ,"duration should be greater than zero");
         require(_amount > 0 ,"rewardAmount should be greater than zero");
-        uint amount = _amount * MULTIPLIER;
+        // uint amount = _amount * MULTIPLIER;
         if(block.timestamp > finishAt){
             //如果没有开始或者活动结束：奖金增长速率为 amount / duration(s)    
-            rewardRate = amount / duration;
+            rewardRate = _amount / duration;
         } else {
             //否则使用原本剩余奖池数量 + 新加入的奖金数量 / duration
             uint remainingRewards = rewardRate * (finishAt - block.timestamp);
-            rewardRate = (remainingRewards + amount) / duration;
+            rewardRate = (remainingRewards + _amount) / duration;
         }
 
         require(rewardRate > 0, "rewardRate can not be 0");
         require(duration * rewardRate <= rewardToken.balanceOf(address(this)), "rewards amount > balance");
         //开始和结束时间
-        totalShares += amount;
+        totalRewards += _amount;
         finishAt = block.timestamp + duration;
         updatedAt = block.timestamp;
     }
@@ -113,14 +114,13 @@ contract StakingRewards {
     function stake(uint256 _amount) external calculateReward(msg.sender) {
         console.log("amount", _amount);
         require(_amount > 0, "Amount must be greater than zero");
-        uint amount = _amount * MULTIPLIER;
-        stakingToken.approve(address(this), amount);
-        (bool success) = stakingToken.transferFrom(msg.sender, address(this), amount);
+        // uint amount = _amount;
+        (bool success) = stakingToken.transferFrom(msg.sender, address(this), _amount);
         require(success, "Transfer failed");
-        emit Staked(msg.sender, amount);
+        emit Staked(msg.sender, _amount);
 
-        userStaked[msg.sender] += amount;
-        totalStaked += amount;
+        userStaked[msg.sender] += _amount;
+        totalStaked += _amount;
     }
 
     // 计算用户的可领取奖励
@@ -136,29 +136,32 @@ contract StakingRewards {
     // }
 
     function withdrawRewards() external calculateReward(msg.sender) {
-        uint reward = userShares[msg.sender];
+        uint rewards = userShares[msg.sender];
         //取出奖励token
-        if(reward == 0){
+        if(rewards == 0){
             revert NoRewardsError(msg.sender, "no reward to withdraw");
         }
         userShares[msg.sender] = 0;
-        totalShares -= reward;
-        (bool success) = rewardToken.transfer(msg.sender, reward);
+        // totalShares -= reward;
+        console.log("totalRewards=>", totalRewards);
+        console.log("rewards=>", rewards);
+        rewardLeft = totalRewards - rewards;
+        (bool success) = rewardToken.transfer(msg.sender, rewards);
         require(success, "transfer failed");
-        emit Withdrawn(msg.sender, rewardToken, reward);
+        emit Withdrawn(msg.sender, rewardToken, rewards);
 
     }
 
     function withdrawStakingToken(uint _amount) external calculateReward(msg.sender) {
-        uint amount = _amount * MULTIPLIER;
-        require(amount > 0, "amount can not be 0");
-        require(amount <= stakingToken.balanceOf(msg.sender));
+        // uint amount = _amount;
+        require(_amount > 0, "amount can not be 0");
+        require(_amount <= stakingToken.balanceOf(msg.sender));
         //取出质押金额
-        userStaked[msg.sender] -= amount;
-        totalStaked -= amount;
-        (bool success) = stakingToken.transfer(msg.sender, amount);
+        userStaked[msg.sender] -= _amount;
+        totalStaked -= _amount;
+        (bool success) = stakingToken.transfer(msg.sender, _amount);
         require(success, "transfer failed");
-        emit Withdrawn(msg.sender, stakingToken, amount);
+        emit Withdrawn(msg.sender, stakingToken, _amount);
     }
 
     // 用户提取质押和奖励
