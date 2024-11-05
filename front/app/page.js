@@ -1,6 +1,6 @@
 'use client'
 import { useStakingRewardsContext } from "@/context/contract";
-import { Button, Input } from "@mui/material";
+import { button, Input } from "@mui/material";
 import {useState} from "react";
 import "./app.css";
 
@@ -36,124 +36,75 @@ export default function Home() {
         <div className="content">
           <div>
             <div className="mr-4">
-              <Button
-                className="button"
-                variant="contained"
-                onClick={addSTK}
-              >
+              <button onClick={addSTK}>
                 add STK
-              </Button>
+              </button>
             </div>
             <div className="mr-4">
-              <Button
-                className="button"
-                variant="contained"
-                onClick={addRTK}
-              >
+              <button onClick={addRTK}>
                 add RTK
-              </Button>
+              </button>
             </div>
           </div>
           
           <div className="mr-4">
-            <Input placeholder="duration" type="text" onKeyUp={(e) => setDuration(e.target.value)}></Input>
-            <Button
-              sx={{className:"button"}}
-              variant="contained"
-              onClick={() =>{setRewardsDuration(duration.toString());}}
-            >
+            <input placeholder="duration" type="text" onKeyUp={(e) => setDuration(e.target.value)}/>
+            <button onClick={() =>{setRewardsDuration(duration.toString());}}>
               设置奖励持续时间
-            </Button>
+            </button>
           </div>
           <div className="mr-4">
-            <Input placeholder="rewardAmount" type="text" onKeyUp={(e) => setRewardAmount(e.target.value)}></Input>
-            <Button
-              sx={{className:"button"}}
-              variant="contained"
-              onClick={() => {notifyRewardAmount(rewardAmount.toString());}}
-            >
+            <input placeholder="rewardAmount" type="text" onKeyUp={(e) => setRewardAmount(e.target.value)}/>
+            <button onClick={() => {notifyRewardAmount(rewardAmount.toString());}}>
               设置奖池金额
-            </Button>
+            </button>
           </div>
           <div className="mr-4">
-            <Input placeholder="stakeAmount" type="text" onKeyUp={(e) => setStakeAmount(e.target.value)}></Input>
-            <Button
-              className="button"
-              variant="contained"
-              onClick={() => {stakeSTK(stakeAmount.toString())}}
-            >
+            <input placeholder="stakeAmount" type="text" onKeyUp={(e) => setStakeAmount(e.target.value)}/>
+            <button onClick={() => {stakeSTK(stakeAmount.toString())}}>
               质押 {stakeAmount} 到合约
-            </Button>
+            </button>
           </div>
           <div className="mr-4">
-            <Button
-              className="button"
-              variant="contained"
-              onClick={() => {withdrawRTK();}}
-            >
-              取出 RTK 到账号
-            </Button>
-          </div>
-          <div className="mr-4">
-            <Input placeholder="stakedAmount" type="text" onKeyUp={(e) => setStakedAmount(e.target.value)}></Input>
-            <Button
-              className="button"
-              variant="contained"
-              onClick={ () => {withdrawSTK(stakedAmount.toString());}}
-            >
+            <input placeholder="stakedAmount" type="text" onKeyUp={(e) => setStakedAmount(e.target.value)}/>
+            <button onClick={ () => {withdrawSTK(stakedAmount.toString());}}>
               取出 STK 到账号
-            </Button>
+            </button>
           </div>
-          
           <div className="mr-4">
-            <Button
-              className="button"
-              variant="contained"
-              onClick={ () => {queryEarnedRewards();}}
-            >
+            <button onClick={() => {withdrawRTK();}}>
+              取出 RTK 到账号
+            </button>
+          </div>
+          <div className="mr-4">
+            <button onClick={ () => {queryEarnedRewards();}}>
               查询质押已获取RTK代币奖励
-            </Button>
+            </button>
           </div>
           <div className="mr-4">
-            <Button
-              className="button"
-              variant="contained"
-              onClick={ () => {queryFinishTime();}}
-            >
+            <button onClick={ () => {queryFinishTime();}}>
               查询结束时间
-            </Button>
+            </button>
           </div>
         </div>  
       </div>
       <div className="child">  
         <div className="content"> 
           <div className="mr-4">
-            <Button
-              className="button"
-              variant="contained"
-              onClick={() => {mintSTK('1000');}}
-            >
+            <button onClick={() => {mintSTK('1000');}}>
               领取 STK 到账号
-            </Button>
+            </button>
           </div>
           
           <div className="mr-4">
-            <Button
-              className="button"
-              variant="contained"
-              onClick={queryBalanceSTK}
-            >
+            <button onClick={queryBalanceSTK}>
               查询STK代币余额
-            </Button>
+            </button>
           </div>
           <div className="mr-4">
-            <Button
-              className="button"
-              variant="contained"
-              onClick={queryBalanceRTK}
-            >
+            <button onClick={queryBalanceRTK}>
               查询RTK代币余额
-            </Button>
+            </button>
           </div>
         </div>  
       </div>

@@ -9,7 +9,7 @@ body {
 }  
 
 .container {  
-    width: 800px;  
+    width: 860px;  
     height: 500px;  
     border: 1px solid #333; /* 外边线 */  
     box-shadow: 0 4px 8px rgba(0, 0, 0, 20); /* 悬浮效果 */  
@@ -49,28 +49,47 @@ body {
     text-align: center;  
 }
 
-.button {
+div {
+    margin-top: 5px;  /* 垂直间距 */
+}
+
+button {
     border-radius: 8px;
     border: 1px solid transparent;
     padding: 0.6em 1.2em;
     font-size: 1em;
     font-weight: 500;
     font-family: inherit;
-    background-color: #1a1a1a;
+    background-color: #08d4eb;
     cursor: pointer;
     transition: border-color 0.25s;
+    margin-left: 10px;
+    margin-right: 10px;
 }
   
-button + button {
-    margin-left: 10px; /* 水平间距 */
-    margin-top: 5px;  /* 垂直间距 */
-}
+/* button + button {
+    margin-left: 10px; 
+    margin-top: 5px; 
+} */
   
-.button:hover {
+button:hover {
     border-color: #646cff;
 }
-.button:focus,
-.button:focus-visible {
+/* button:focus,
+button:focus-visible {
     outline: 4px auto -webkit-focus-ring-color;
+} */
+
+input {
+    border-radius: 8px;
+    border: 1px solid transparent;
+    padding: 0.6em 1.2em;
+    font-size: 1em;
+    font-weight: 200;
+    font-family: inherit;
+    cursor: pointer;
+    transition: border-color 0.25s;
+    width: 150px; /* 固定宽度 */  
+    border: 1px solid #000; /* 黑色边框 */  
 }
 

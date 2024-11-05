@@ -63,6 +63,10 @@ contract StakingRewards {
         _;
     }
 
+    function _min(uint x, uint y) private pure returns(uint){
+        return x < y ? x : y;
+    }
+
     function rewardsPerStakingToken() public view returns(uint){
         //截止目前单位token奖励金额
         if(totalStaked == 0){
@@ -74,12 +78,14 @@ contract StakingRewards {
     }
 
     function lastTimeRewardApplicable() public view returns(uint){
-        return block.timestamp < finishAt ? block.timestamp : finishAt;
+        
+        return _min(block.timestamp, finishAt);
     }
 
     function earned(address _account) public view returns(uint){
         //截止目前存量获得奖励数量
         uint rewards = (userStaked[_account] * (rewardsPerStakingToken() - userRewardPerTokenPaid[_account])) / MULTIPLIER;
+        console.log("rewards=>", rewards);
         return rewards;
     }
 
@@ -126,6 +132,10 @@ contract StakingRewards {
         
     }
 
+    function nowTime() public view returns(uint){
+        return block.timestamp;
+    }
+
     // 计算用户的可领取奖励
     // function calculateReward(address user) public view returns (uint256) {
     //     if (totalShares == 0) {
@@ -158,7 +168,7 @@ contract StakingRewards {
     function withdrawStakingToken(uint _amount) external calculateReward(msg.sender) {
         // uint amount = _amount;
         require(_amount > 0, "amount can not be 0");
-        require(_amount <= stakingToken.balanceOf(msg.sender));
+        require(_amount <= stakingToken.balanceOf(address(this)), "Insufficient staking token balance");
         //取出质押金额
         userStaked[msg.sender] -= _amount;
         totalStaked -= _amount;

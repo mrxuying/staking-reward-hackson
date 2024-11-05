@@ -134,7 +134,7 @@ export default function StakingRewardsProvider({ children }) {
     }
 
     const queryEarnedRewards = async () => {
-        console.log('earnedAmount', account);
+        // console.log('earnedAmount', account);
         const unit = parseUnits('1', 'ether');
         const earnedAmount = await contract.earned(account);
         console.log('earnedRewards(unit/wei):', earnedAmount.toString());
@@ -142,8 +142,8 @@ export default function StakingRewardsProvider({ children }) {
     }
 
     const queryFinishTime = async () => {
-        const finishTime = await contract.finishTime();
-        console.log('finishTime:', {...finishTime});
+        const finishTime = await contract.nowTime();
+        console.log('finishTime:', finishTime.toString());
     }
 
     return (
