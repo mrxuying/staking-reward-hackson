@@ -132,7 +132,7 @@ export default function StakingRewardsProvider({ children }) {
         console.log('withdraw RTK', amount);
         await contract.withdrawStakingToken(amount)
     }
-
+    //查询当前获得奖励的时候，区块时间并不是当前时间
     const queryEarnedRewards = async () => {
         // console.log('earnedAmount', account);
         const unit = parseUnits('1', 'ether');
@@ -141,7 +141,7 @@ export default function StakingRewardsProvider({ children }) {
         return earnedAmount;
     }
 
-    const queryFinishTime = async () => {
+    const queryNowTime = async () => {
         const finishTime = await contract.nowTime();
         console.log('finishTime:', finishTime.toString());
     }
@@ -164,7 +164,7 @@ export default function StakingRewardsProvider({ children }) {
             queryBalanceRTK,
             withdrawSTK,
             queryEarnedRewards,
-            queryFinishTime
+            queryNowTime
 
         }}>
             {children}

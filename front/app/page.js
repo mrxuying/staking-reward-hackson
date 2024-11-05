@@ -19,7 +19,7 @@ export default function Home() {
     queryBalanceSTK, 
     queryBalanceRTK, 
     queryEarnedRewards,
-    queryFinishTime
+    queryNowTime
     
   } = useStakingRewardsContext();
 
@@ -82,8 +82,8 @@ export default function Home() {
             </button>
           </div>
           <div className="mr-4">
-            <button onClick={ () => {queryFinishTime();}}>
-              查询结束时间
+            <button onClick={ () => {queryNowTime();}}>
+              查询当前时间
             </button>
           </div>
         </div>  
@@ -92,7 +92,7 @@ export default function Home() {
         <div className="content"> 
           <div className="mr-4">
             <button onClick={() => {mintSTK('1000');}}>
-              领取 STK 到账号
+              领取1000 STK 到账号
             </button>
           </div>
           
